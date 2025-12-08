@@ -1,0 +1,111 @@
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shopping Cart — Smart Poultry Store</title>
+  <link rel="stylesheet" href="/css/cart.css">
+</head>
+
+<body>
+
+  <!-- FIXED HEADER -->
+  <header class="site-header">
+    <div class="container header-container">
+      <h1 class="logo">Smart Poultry Store</h1>
+      <nav class="mini-nav">
+        <a href="/">Home</a>
+        <a href="/products">Products</a>
+        <a href="/cart" class="active">Cart</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT WRAPPER -->
+  <div class="page-wrapper">
+
+    <!-- SCROLLABLE ITEMS SECTION -->
+    <main class="cart-items">
+
+      <h2>Your Cart</h2>
+
+      <% if (results.length === 0) { %>
+        <p class="empty">Your cart is empty.</p>
+      <% } else { %>
+
+        <div class="items-grid">
+          <% results.forEach(result => { %>
+
+            <div class="item-card">
+
+              <div class="item-image">
+                <img src="<%= result.image %>" alt="<%= result.name %>">
+              </div>
+
+              <div class="item-info">
+                <h3><%= result.name %></h3>
+                <p class="price">KSh <%= result.price %></p>
+
+                <div class="qty-controls">
+                  <button class="qty-btn decrease" data-id="<%= result.id %>">−</button>
+                  <span class="qty-display"><%= result.quantity %></span>
+                  <button class="qty-btn increase" data-id="<%= result.id %>">+</button>
+                </div>
+                <form action="/add_to_cart" method="post">
+                  <input type="hidden" name="id" value="<%= result.id %>">
+                  <input type="hidden" name="name" value="<%= result.name %>">
+                  <input type="hidden" name="price" value="<%= result.price %>">
+                  <input type="hidden" name="quantity" value="1">
+                  <input type="hidden" name="image" value="<%= result.image %>">
+                  <input type="submit" name="id" value="Add to Cart" class="add-cart-btn">
+
+                </form>
+
+              
+              </div>
+
+            </div>
+
+          <% }) %>
+        </div>
+
+      <% } %>
+
+    </main>
+
+    <!-- FIXED ORDER SUMMARY -->
+    <aside class="cart-summary">
+      <h2>Order Summary</h2>
+
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span>Subtotal</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Delivery</span>
+        <span>KSh <%= delivery %></span>
+      </div>
+
+      <div class="summary-row total">
+        <span>Total</span>
+        <span>KSh <%= total %></span>
+      </div>
+
+      <button class="checkout">Proceed to Checkout</button>
+
+      <div class="secure">
+        <small>Secure payment · 30-day returns</small>
+      </div>
+    </aside>
+
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
