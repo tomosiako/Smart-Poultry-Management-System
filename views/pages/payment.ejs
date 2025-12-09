@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Your Cart — Smart Poultry Store</title>
+  <link rel="stylesheet" href="/css/payment.css" />
+</head>
+<body>
+  <section class="cart container">
+    <div class="top">
+      <h4>Your Cart</h4>
+    </div>
+
+    <% if (!cart || cart.length === 0) { %>
+      <div class="empty-cart">
+        <p>Your cart is empty.</p>
+        <a class="btn primary" href="/">Continue shopping</a>
+      </div>
+    <% } else { %>
+      <table class="tablecls">
+        <thead>
+          <tr>
+            <th class="product-col">Product</th>
+            <th class="qty-col">Quantity</th>
+            <th class="subtotal-col">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% cart.forEach(function(item, index) { %>
+            <tr class="cart-row">
+              <td class="product-col">
+                <div class="product-info">
+                  <img src="/images/<%= item.image %>" alt="<%= item.name %>" class="product-thumb" />
+                  <div class="product-meta">
+                    <p class="product-name"><%= item.name %></p>
+                    <small class="product-price">$<%= item.price.toFixed(2) %></small>
+                    <form class="remove-form" method="POST" action="/cart/remove">
+                      <input type="hidden" name="index" value="<%= index %>" />
+                      <button type="submit" class="btn link remove-btn">Remove</button>
+                    </form>
+                  </div>
+                </div>
+              </td>
+
+              <td class="qty-col">
+                <div class="qty-controls">
+                  <form class="dec-form" method="POST" action="/cart/decrement">
+                    <input type="hidden" name="index" value="<%= index %>" />
+                    <button type="submit" class="btn circle">−</button>
+                  </form>
+
+                  <input class="qty-input" type="number" name="quantity" value="<%= item.quantity || 1 %>" min="1" readonly />
+
+                  <form class="inc-form" method="POST" action="/cart/increment">
+                    <input type="hidden" name="index" value="<%= index %>" />
+                    <button type="submit" class="btn circle">+</button>
+                  </form>
+
+                  <!-- optional direct edit -->
+                  <form class="edit-qty" method="POST" action="/cart/update-quantity">
+                    <input type="hidden" name="index" value="<%= index %>" />
+                    <input class="qty-edit" type="number" name="newQuantity" value="<%= item.quantity || 1 %>" min="1" />
+                    <button type="submit" class="btn small">Update</button>
+                  </form>
+                </div>
+              </td>
+
+              <td class="subtotal-col">
+                $<%= (item.price * (item.quantity || 1)).toFixed(2) %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+
+      <div class="cart-summary">
+        <div class="summary-left">
+          <a class="btn secondary" href="/">Continue Shopping</a>
+        </div>
+        <div class="summary-right">
+          <table class="summary-table">
+            <tr>
+              <td>Subtotal</td>
+              <td>$<%= (typeof total !== 'undefined' ? total.toFixed(2) : cart.reduce((s, it) => s + it.price * (it.quantity || 1), 0).toFixed(2)) %></td>
+            </tr>
+            <tr>
+              <td>Shipping</td>
+              <td>---</td>
+            </tr>
+            <tr class="total-row">
+              <td>Total</td>
+              <td>$<%= (typeof total !== 'undefined' ? total.toFixed(2) : cart.reduce((s, it) => s + it.price * (it.quantity || 1), 0)).toFixed(2) %></td>
+            </tr>
+          </table>
+          <a class="btn primary" href="/checkout">Proceed to Checkout</a>
+        </div>
+      </div>
+    <% } %>
+
+  </section>
+</body>
+</html>
