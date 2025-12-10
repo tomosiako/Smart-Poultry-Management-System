@@ -3,6 +3,8 @@ var ejs = require('ejs')
 var bodyParser = require('body-parser')
 var mysql = require('mysql')
 var session = require('express-session')
+const axios = require("axios");
+const moment = require("moment");
 
 mysql.createConnection({
     host:"localhost",
@@ -219,6 +221,105 @@ app.post('/place_order', function(req,res){
 })
 app.get('/payment',function(req,res){
      var cart = req.session.cart;
-    res.render('pages/payment',{cart:cart})
+     var total = req.session.total
+
+    //var number = req.body.number
+    
+
+
+     getAccessToken()
+        .then((accessToken) => {
+          const url =
+            "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest";
+          const auth = "Bearer " + accessToken;
+          const timestamp = moment().format("YYYYMMDDHHmmss");
+          const password = new Buffer.from(
+            "174379" +
+              "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919" +
+              timestamp
+          ).toString("base64");
+    
+          axios
+            .post(
+              url,
+              {
+                BusinessShortCode: "174379",
+                Password:password,
+                Timestamp: timestamp,
+                TransactionType: "CustomerPayBillOnline",
+                Amount: total,
+                PartyA: "0113472564", //phone number to receive the stk push
+                PartyB:"600000",// "174379",
+                PhoneNumber: "254113472564",
+                CallBackURL: "https://dd3d-105-160-22-207.ngrok-free.app/callback",
+                AccountReference: "SCAR PAY",
+                TransactionDesc: "Mpesa Daraja API stk push test",
+              },
+              {
+                headers: {
+                  Authorization: auth,
+                },
+              }
+            )
+            .then((response) => {
+              res.send("😀 Request is successful done ✔✔. Please enter mpesa pin to complete the transaction");
+            })
+            .catch((error) => {
+              console.log(error);
+              res.status(500).send("❌ Request failed");
+            });
+        })
+        .catch(console.log);
+
+
+
+
+    res.render('pages/payment',{total:total})
 
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//payment
+
+// ACCESS TOKEN FUNCTION - Updated to use 'axios'
+async function getAccessToken() {
+   const consumer_key = "F1p9PsmwaX97HAZdDbJLABDpazEodNK4BcVVdagWsq43E9Ud"; // REPLACE IT WITH YOUR CONSUMER KEY
+   const consumer_secret = "gn7YNJKYuatTbiBcXL5Ng91HSkFK82JR9fxaTXfPK4szZKLf0jB3oza5rDomuzed"; // REPLACE IT WITH YOUR CONSUMER SECRET
+   const url =
+    "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest";
+
+  //const consumer_key = "F1p9PsmwaX97HAZdDbJLABDpazEodNK4BcVVdagWsq43E9Ud"; // REPLACE IT WITH YOUR CONSUMER KEY
+  //const consumer_secret = "gn7YNJKYuatTbiBcXL5Ng91HSkFK82JR9fxaTXfPK4szZKLf0jB3oza5rDomuzed"; // REPLACE IT WITH YOUR CONSUMER SECRET
+//   const url =
+//     "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
+  const auth =
+    "Basic " +
+    new Buffer.from(consumer_key + ":" + consumer_secret).toString("base64");
+
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: auth,
+      },
+    });
+   
+    const dataresponse = response.data;
+    // console.log(data);
+    const accessToken = dataresponse.access_token;
+    return accessToken;
+  } catch (error) {
+    throw error;
+  }
+}
