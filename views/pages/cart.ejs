@@ -37,8 +37,7 @@
                 </div>
             </td>
 
-            <td>
-                <form method="POST" action="/update_quantity">
+            <td><form method="POST" action="/update_quantity">
                     <input type="hidden" name="id" value="<%= item.id %>">
                     <div class="qty-box">
                         <button type="submit" name="decrease_product_quantity" value="decrease" class="qty-btn">-</button>
@@ -46,6 +45,7 @@
                         <button type="submit" name="increase_product_quantity" value="increase" class="qty-btn">+</button>
                     </div>
                 </form>
+                
             </td>
 
             <td>

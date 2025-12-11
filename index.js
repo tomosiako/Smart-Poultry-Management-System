@@ -176,6 +176,25 @@ app.get('/checkout',function(req,res){
     res.render('pages/checkout',{total:total})
 })
 
+app.get('/login',function(req,res){
+   
+    res.render('pages/login')
+})
+
+app.get('/employeelogin',function(req,res){
+   
+    res.render('pages/employeelogin')
+})
+app.get('/employeeDashboard',function(req,res){
+   
+    res.render('pages/employeeDashboard')
+})
+
+
+app.get('/register',function(req,res){
+   
+    res.render('pages/register')
+})
 app.post('/place_order', function(req,res){
 
     var name = req.body.name
@@ -323,3 +342,95 @@ async function getAccessToken() {
     throw error;
   }
 }
+
+
+
+
+
+
+// login
+
+
+
+app.post('/login', (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const total =   req.session.total ;
+    
+
+    var con = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "Ecommerce1"
+    });
+
+    con.connect((err) => {
+        if (err) {
+            console.error("Database Connection Failed: ", err);
+            return res.status(500).send("Database connection error.");
+        }
+
+        con.query("SELECT * FROM users where email=? and password=?",[email,password],(err, result) =>{ 
+            if (err) {
+                console.error("Query Error: ", err);
+                return res.status(500).send("Error retrieving products.");
+                console.log(err)
+            }
+            req.session.email = email;
+            res.render('pages/checkout', { 
+                total: req.session.total | 0, 
+                email: req.session.email
+            });
+
+        //     res.render('pages/checkout', { total: total ,name:name});
+        // });
+
+        con.end(); // Close the database connection
+    });
+});
+});
+
+
+
+
+
+
+app.post('/employeelog', (req, res) => {
+    const employeenumber = req.body.employeenumber;
+    const password = req.body.password;
+
+  
+    var con = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "smart_poultry"
+    });
+
+    con.connect((err) => {
+        if (err) {
+            console.error("Database Connection Failed: ", err);
+            return res.status(500).send("Database connection error.");
+        }
+
+        con.query("SELECT * FROM employee_details where number=? and password=?",[employeenumber,password],(err, result) =>{ 
+            // if (err) {
+            //     console.error("Query Error: ", err);
+            //     return res.status(500).send("Error retrieving products.");
+            //     console.log(err)
+            // }
+            //     else //     else
+                if (result.length === 0) {
+                    // Wrong login
+                    return res.send("Invalid login credentials");
+                }
+                 res.render('pages/employeeDashboard');
+
+      
+
+        con.end(); // Close the database connection
+    });
+});
+});
