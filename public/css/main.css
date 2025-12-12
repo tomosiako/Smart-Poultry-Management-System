@@ -3,97 +3,185 @@
     padding: 0;
     box-sizing: border-box;
     scroll-behavior: smooth;
-    font-family: sans-serif;
+    font-family: 'Segoe UI', sans-serif;
 }
 
+/* NAVIGATION */
 nav{
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+    align-items: center;
+    padding: 15px 50px;
+    background: green;
     color: orange;
-    /*position: fixed;*/
-    background: wheat;
-    width: 100%;
-    margin-top: 0;
 }
 
 .leftnav{
     display: flex;
-    margin-left: 50px;
+    align-items: center;
+    gap: 10px;
 }
 
 .leftnav img{
-    width: 40px;
-    height: 40px;
-    margin: 5px;
-    border-radius:50%;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
 }
+
 .boldone{
     color: red;
-    font-weight: bolder;
+    font-weight: 900;
 }
-
 
 .rightnav ul{
-    margin-right: 30px;
     display: flex;
-    justify-content: space-between;
-
-}
-
-.rightnav ul li {
-    font-size: 20px;
-    font-weight:bold ;
-    position: relative;
-    display: inline-block;
+    gap: 25px;
     list-style: none;
-    margin: 10px 20px;
 }
 
 .rightnav ul li a{
-    color: black;
     text-decoration: none;
-    font-size: 18px;
-    position: relative;
+    color: black;
+    font-weight: bold;
 }
 
+.rightnav ul li a:hover{
+    color: #ff6600;
+}
+
+/* HERO */
 .container1{
     width: 100%;
     height: 550px;
-    background-image:url(/img/image.png);
+    background-image: url(/img/image.png);
     background-size: cover;
     background-position: center;
     text-align: center;
-    align-items: center;
-    padding: 100px;
+    padding-top: 150px;
     color: orange;
+    text-shadow: 1px 1px 2px #000;
 }
 
-button{
-    padding: 2px;
+.container1 button{
+    padding: 12px 25px;
     border-radius: 6px;
+    border: none;
     color: red;
     background-color: orange;
-    font-size: 30px;
+    font-size: 24px;
     font-weight: bold;
-    
-}
-.itemscont1{
-    padding: 30px;
-    background:none;
-    border: 3px solid;
-    margin: 40px;
-    justify-content: space-between;
-    flex-wrap: wrap;
-     display: grid;
-     display: flex;
-     border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
+.container1 button:hover{
+    background-color: #ff9933;
+}
+
+/* TAGLINE */
+.tagline{
+    margin: 20px 0;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+/* ITEMS CONTAINER */
+.itemscont1{
+    padding: 30px;
+    margin: 40px;
+   
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* PRODUCT BOXES */
 .productdiv{
     width: 300px;
-    height: 200px;
+    min-height: 180px;
     background-color: green;
-    margin: 30px;
+    border-radius: 10px;
+    padding: 15px;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.productdiv:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+/* SERVICE BOX */
+.service-box{
+    display: flex;
+    flex-direction: row;
+    background-color: #28a745;
+    gap: 10px;
+}
+
+.service-box img{
+    width: 50%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.service-info{
+    padding: 10px;
+}
+
+/* ABOUT BOX */
+.about-box{
+    background-color: #007b33;
+    text-align: left;
+    width: 600px;
+    height: 500px;
+}
+
+/* CONTACT BOX */
+.contact-box{
+    background-color: #444;
+    text-align: left;
+}
+
+.contact-box form input,
+.contact-box form textarea{
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
     border-radius: 5px;
+    border: none;
+}
+
+.contact-box form button{
+    margin-top: 10px;
+    background-color: orange;
+    color: red;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+}
+
+.contact-box form button:hover{
+    background-color: #ff9933;
+}
+footer {
+    background-color: green;
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 16px;
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 0;
+}
+.titles{
+    margin-left: 600px;
+
 }

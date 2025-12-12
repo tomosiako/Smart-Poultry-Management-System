@@ -3,97 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="./css/main.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <title>Smart Farm</title>
 </head>
 <body>
-   
+
+    <!-- NAVIGATION -->
     <nav>
         <div class="leftnav">
-            <img src="./img/Screenshot 2025-12-05 113525.png">
+            <img src="./img/Screenshot 2025-12-05 113525.png" alt="Logo">
             <h1><span class="boldone">Smart</span> Farm</h1>
         </div>
 
         <div class="rightnav">
-            <ul >
-                    <li><a href="#header">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#services">Products</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/employeelogin">Staff Portal</a></li>
-                    
-                </ul>
+            <ul>
+                <li><a href="#header">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Products</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/employeelogin">Staff Portal</a></li>
+            </ul>
         </div>
     </nav>
-    <div class="container1" >
-    
 
+    <!-- HERO SECTION -->
+    <div class="container1" id="header">
         <h1 class="boldone">The Smart Farm Poultry Farm</h1>
-        <br><br><br>
-        
-            <h1>Get the best poultry products <br>  and services <br>for your business needs and family</h1>
-          <br><br><br><br>
-        
-        <a href="/products">
-        <button>View Products</button>
-        </a>
-
-       
+        <p class="tagline">Get the best poultry products and services for your business needs and family.</p>
+        <a href="/products"><button>View Products</button></a>
     </div>
-    <h2>About Us</h2>
-   
-     <div class="itemscont1" id="about">
-       
-         <div class="productdiv">
-            <h3>Our story</h3>
+
+    <!-- ABOUT US -->
+    <h2 class="titles">About Us</h2>
+    <div class="itemscont1" id="about">
+        <div class="productdiv about-box">
+            <h3>Our Story</h3>
+            <p>Smart Farm combines technology with modern poultry management. We ensure fresh eggs, healthy meat, and quality feeds delivered to your business or home. Our online system allows you to track products, orders, and farm updates efficiently.</p>
         </div>
-        
-        
     </div>
 
-    <h2>products and Servises</h2>
+    <!-- PRODUCTS & SERVICES -->
+    <h2 class="titles">Products and Services</h2>
     <div class="itemscont1" id="services">
-        <div class="productdiv">
-            <h3>eggs</h3>
+        <div class="productdiv service-box">
+            <img src="./img/egg.png" alt="Eggs">
+            <div class="service-info">
+                <h3>Eggs</h3>
+                <p>Fresh, healthy eggs from our modern poultry farm delivered daily.</p>
+            </div>
         </div>
-        
-         <div class="productdiv">
-            <h3>meat</h3>
+
+        <div class="productdiv service-box">
+            <img src="./img/Screenshot 2025-12-05 113525.png" alt="Meat">
+            <div class="service-info">
+                <h3>Meat</h3>
+                <p>High-quality chicken meat processed hygienically and safely.</p>
+            </div>
         </div>
-        
-         <div class="productdiv">
-            <h3>chicken feeds</h3>
+
+        <div class="productdiv service-box">
+            <img src="./img/image.png" alt="Feeds">
+            <div class="service-info">
+                <h3>Chicken Feeds</h3>
+                <p>Nutritious feeds for your poultry for optimal growth and health.</p>
+            </div>
         </div>
-        
-         <div class="productdiv">
-            <h3>chicken feeds</h3>
+         <div class="productdiv service-box">
+            <img src="./img/image.png" alt="Feeds">
+            <div class="service-info">
+                <h3>Chicken Feeds</h3>
+                <p>Nutritious feeds for your poultry for optimal growth and health.</p>
+            </div>
         </div>
-         <div class="productdiv">
-            <h3>chicken feeds</h3>
+         <div class="productdiv service-box">
+            <img src="./img/image.png" alt="Feeds">
+            <div class="service-info">
+                <h3>Chicken Feeds</h3>
+                <p>Nutritious feeds for your poultry for optimal growth and health.</p>
+            </div>
+        </div> <div class="productdiv service-box">
+            <img src="./img/image.png" alt="Feeds">
+            <div class="service-info">
+                <h3>Chicken Feeds</h3>
+                <p>Nutritious feeds for your poultry for optimal growth and health.</p>
+            </div>
         </div>
-         <div class="productdiv">
-            <h3>chicken feeds</h3>
-        </div>
-        
     </div>
-    <h2>contuct us</h2>
-     <div class="itemscont1" id="contact">
-       
-        
-            <h3>contacts</h3>
-            <h4>Number: 0700034758</h4>
-            <h4>Email : Smartfarm@gmail.com</h4>
-        
-             <form name="submit-to-google-sheet">
-                        <input type="text" name="Name" placeholder="Your Name" required>
-                        <input type="email" name="Email" placeholder="Email" required>
-                        <textarea name="Message" rows="6"placeholder="Your Message"></textarea>
-                        <button type="submit">Submit</button>
-                    </form>
-        
-        
+
+    <!-- CONTACT US -->
+    <h2 class="titles">Contact Us</h2>
+    <div class="itemscont1" id="contact">
+        <div class="productdiv contact-box">
+            <h3>Reach Us</h3>
+            <p><strong>Phone:</strong> 0700034758</p>
+            <p><strong>Email:</strong> smartfarm@gmail.com</p>
+
+            <form name="submit-to-google-sheet">
+                <input type="text" name="Name" placeholder="Your Name" required>
+                <input type="email" name="Email" placeholder="Email" required>
+                <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
     </div>
-    
+    <footer>
+    <p>Developed by Machaji Na Manyonyois Developers</p>
+</footer>
+
+
 </body>
 </html>

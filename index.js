@@ -181,6 +181,11 @@ app.get('/login',function(req,res){
     res.render('pages/login')
 })
 
+app.get('/collection',function(req,res){
+   
+    res.render('pages/collection')
+})
+
 app.get('/employeelogin',function(req,res){
    
     res.render('pages/employeelogin')
@@ -190,6 +195,10 @@ app.get('/employeeDashboard',function(req,res){
     res.render('pages/employeeDashboard')
 })
 
+app.get('/usedproducts',function(req,res){
+    res.render('pages/usedproducts')
+
+})
 
 app.get('/register',function(req,res){
    

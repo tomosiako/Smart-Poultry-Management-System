@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Dashboard</title>
-    <link rel="stylesheet" href="./css/employeedash.css">
+    <title>Employee Product Usage</title>
+    <link rel="stylesheet" href="./css/usedproducts.css">
 </head>
 <body>
     <div class="dashboard-container">
@@ -14,7 +14,7 @@
                 <ul>
                     <li><a href="/employeeDashboard">Dashboard</a></li>
                     <li><a href="/usedproducts">Products Used</a></li>
-                      <li><a href="/collection">Collected Items</a></li>
+                      <li><a href="/collection">Collections</a></li>
                     <li><a href="#">Reports</a></li>
                     <li><a href="/">Logout</a></li>
                 </ul>
@@ -22,50 +22,52 @@
         </header>
 
         <main>
+            <!-- PRODUCT USAGE FORM -->
             <section class="form-section">
-                <h2>Add Daily Activity</h2>
-                <form class="activity-form">
+                <h2>Record Products Used</h2>
+                <form class="product-form">
                     <label for="date">Date</label>
                     <input type="date" id="date" required>
 
-                    <label for="activity">Activity Description</label>
-                    <textarea id="activity" placeholder="Enter daily farm activity..." required></textarea>
+                    <label for="product">Product Name</label>
+                    <input type="text" id="product" placeholder="e.g., Feed A, Medicine B..." required>
 
-                    <label for="products">Products Used</label>
-                    <textarea id="products" placeholder="Feed, medicines, vaccines..." required></textarea>
+                    <label for="quantity">Quantity Used</label>
+                    <input type="number" id="quantity" placeholder="Enter quantity..." required>
 
-                    <label for="notes">Additional Notes</label>
-                    <textarea id="notes" placeholder="Any other observations..."></textarea>
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" placeholder="Any additional notes..."></textarea>
 
-                    <button type="submit">Submit Activity</button>
+                    <button type="submit">Submit Record</button>
                 </form>
             </section>
 
+            <!-- RECENT PRODUCT USAGE RECORDS -->
             <section class="records-section">
-                <h2>Recent Activities</h2>
+                <h2>Recent Product Usage</h2>
                 <table>
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Activity</th>
-                            <th>Products Used</th>
+                            <th>Product Name</th>
+                            <th>Quantity Used</th>
                             <th>Notes</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>2025-12-08</td>
-                            <td>Feeding the chickens</td>
-                            <td>Feed, Water</td>
-                            <td>All healthy</td>
+                            <td>Feed A</td>
+                            <td>20 kg</td>
+                            <td>Used for morning feeding</td>
                         </tr>
                         <tr>
                             <td>2025-12-07</td>
-                            <td>Vaccination</td>
-                            <td>Vaccine A</td>
-                            <td>Administered to 50 birds</td>
+                            <td>Medicine B</td>
+                            <td>5 ml</td>
+                            <td>Vaccination applied to 30 chicks</td>
                         </tr>
-                        <!-- More rows can be added dynamically with JS -->
+                        <!-- Dynamic rows can be added with JS -->
                     </tbody>
                 </table>
             </section>
