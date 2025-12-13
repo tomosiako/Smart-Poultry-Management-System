@@ -3,6 +3,10 @@ body {
     margin: 0;
     background-color: #f4f6f9;
 }
+html {
+    scroll-behavior: smooth;
+}
+
 
 .manager-dashboard-container {
     max-width: 1200px;
@@ -147,4 +151,13 @@ ul.employee-list li, ul.vendor-list li {
         gap: 10px;
         align-items: center;
     }
+}
+
+.manager-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
 }

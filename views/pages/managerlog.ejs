@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Smart Poultry Management</title>
+    <link rel="stylesheet" href="./css/login.css">
+</head>
+<body>
+    <div class="auth-container">
+
+            <form method="POST" action="/managerlog" class="auth-form">
+            <h1>Login</h1>
+            
+            <label for="email">ManagerID</label>
+            <input type="text" id="managerid" placeholder="Enter your Manager ID" name="managerid"required>
+            
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password"name="password" required>
+            
+            <button type="submit">Login</button>
+            </form>
+    </div>
+</body>
+</html>

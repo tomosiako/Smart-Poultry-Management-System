@@ -58,8 +58,7 @@ app.get('/',function(req,res){
     })
     con.query("SELECT * FROM products",(err,results)=>{
         res.render("pages/index",{results:results})
-        console.log(results)
-
+       
     })
 
 
@@ -190,9 +189,22 @@ app.get('/employeelogin',function(req,res){
    
     res.render('pages/employeelogin')
 })
+
 app.get('/employeeDashboard',function(req,res){
+     var con = mysql.createConnection({
+        host:"localhost",
+        user:"root",
+        password:"",
+        database:"smart_poultry"
+    })
+    con.query("SELECT * FROM employee_details",(err,results)=>{
+        
+        res.render('pages/employeeDashboard',{results})
+
+   })
+   res.render('pages/employeeDashboard')
    
-    res.render('pages/employeeDashboard')
+   
 })
 
 app.get('/usedproducts',function(req,res){
@@ -204,6 +216,56 @@ app.get('/register',function(req,res){
    
     res.render('pages/register')
 })
+
+app.get('/managerlog',function(req,res){
+   
+    res.render('pages/managerlog')
+   })
+// app.get('/managerDshboard',function(req,res){
+
+//     const con = mysql.createConnection({
+//         host: "localhost",
+//         user: "root",
+//         password: "",
+//         database: "smart_poultry"
+//     });
+
+//                 const q1 = "SELECT * FROM employee_details";
+//                 // const q2 = "SELECT * FROM employee_details";
+//                 // const q3 = "SELECT * FROM employee_details";
+
+//                 con.query(q1, (err1, results) => {
+//                     if (err1){
+//                         return res.status(500).send("DB error");
+//                     } 
+//                     console.log('hureeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+//                     console.log(results)
+//                      return res.render('pages/managerDshboard',{results:results})
+                    
+
+//                      });
+
+//                 // con.query(q2, (err2, r2) => {
+//                 //     if (err2) {return res.status(500).send("DB error");
+//                 //     }
+//                 //      res.render('pages/employeeDashboard',{results})
+//                 //      });
+
+//                 // con.query(q3, (err3, r3) => {
+//                 //     if (err3) {
+//                 //         return res.status(500).send("DB error");
+//                 //     }
+//                 //      res.render('pages/employeeDashboard',{results})
+//                 //      });
+                          
+
+//                             // ONLY ONE RESPONSE!
+               
+   
+//     //res.render('pages/managerDshboard')
+// })
+
+
 app.post('/place_order', function(req,res){
 
     var name = req.body.name
@@ -239,7 +301,6 @@ app.post('/place_order', function(req,res){
                 [cost, name, email,status,city,address,phone,date,product_ids]
             ];
             con.query(query,[values],(err,results)=>{
-                console.log(values)
                 res.redirect('/payment')
             })
         }
@@ -443,3 +504,173 @@ app.post('/employeelog', (req, res) => {
     });
 });
 });
+
+
+
+
+
+
+app.post('/managerlog', (req, res) => {
+    const managerid = req.body.managerid;
+    const password = req.body.password;
+
+  
+    var con = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "smart_poultry"
+    });
+
+    con.connect((err) => {
+        if (err) {
+            console.error("Database Connection Failed: ", err);
+            return res.status(500).send("Database connection error.");
+        }
+
+        con.query("SELECT * FROM manager where id=? and password=?",[managerid,password],(err, result) =>{ 
+            // if (err) {
+            //     console.error("Query Error: ", err);
+            //     return res.status(500).send("Error retrieving products.");
+            //     console.log(err)
+            // }
+            //     else //     else
+                if (result.length === 0) {
+                    // Wrong login
+                    return res.send("Invalid login credentials");
+                }
+
+
+                // If login successful, query multiple tables
+            const qEmployees = "SELECT * FROM employee_details";
+            // const qInventory = "SELECT * FROM inventory";   // example table
+            // const qTasks = "SELECT * FROM tasks";           // example table
+
+            con.query(qEmployees, (err1, results) => {
+                if (err1) return res.status(500).send("DB error on employees");
+
+                // con.query(qInventory, (err2, inventory) => {
+                //     if (err2) return res.status(500).send("DB error on inventory");
+
+                //     con.query(qTasks, (err3, tasks) => {
+                //         if (err3) return res.status(500).send("DB error on tasks");
+
+                        // Render the dashboard and pass all results
+                        res.render('pages/managerDshboard', {
+                            results: results,
+                            // inventory: inventory,
+                            // tasks: tasks
+                        });
+
+                        con.end(); // Close the database connection
+                 
+
+      
+
+        
+    });
+});
+});
+})
+
+app.post('/registeremployee',function(req,res){
+
+    const db = mysql.createConnection({
+    host:"localhost",
+    user:"root",
+    password:"",
+    database:"smart_poultry"
+})
+
+   
+    const { name,workid, email, password,phone,id_number,role } = req.body;
+
+    if (!name || !email || !password || !workid || !phone || !id_number || !role) {
+        console.log(name,workid,password,email,phone,id_number,role)
+        return res.status(400).json({ msg: "All fields are required" });
+    }
+
+    // Check if email already exists
+    const checkid = "SELECT number FROM employee_details WHERE number = ?";
+    db.query(checkid, [workid], (err, result) => {
+        if (err) return res.status(500).json({ msg: "Server error" });
+
+        if (result.length > 0) {
+            return res.status(400).json({ msg: "Work ID already registered" });
+            //return res.render('pages/managerDshboard')
+
+        }
+
+        // Hash password
+        //const hashedPassword = bcrypt.hashSync(password, 10);
+
+        // Insert new user
+        const insertUser = "INSERT INTO employee_details (name, email, number , id_number,role,phone,password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        db.query(insertUser, [name, email,workid,id_number,role,phone, password], (err2) => {
+            if (err2) {
+                
+            console.log(err2)
+            return res.status(500).json({ msg: "Failed to register user" });
+            }
+
+            const qEmployees = "SELECT * FROM employee_details";
+           
+            db.query(qEmployees, (err1, results) => {
+                if (err1) return res.status(500).send("DB error on employees");
+
+                        res.render('pages/managerDshboard', {
+                            results: results,
+                           
+                        });
+
+
+    });
+       
+          
+
+          
+        });
+    })
+    });
+
+    app.post("/removeEmployee", (req, res) => {
+    const db = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "smart_poultry"
+    });
+
+    const empId = req.body.id;
+
+    if (!empId) return res.status(400).send("Missing employee ID.");
+
+    const sql = "DELETE FROM employee_details WHERE number = ?";
+    db.query(sql, [empId], (err, result) => {
+        if (err){
+            console.log(err)
+            return res.status(500).send("Failed to delete");
+        } 
+          const qEmployees = "SELECT * FROM employee_details";
+           
+            db.query(qEmployees, (err1, results) => {
+                if (err1) return res.status(500).send("DB error on employees");
+
+                        res.render('pages/managerDshboard', {
+                            results: results,
+                           
+                        });
+
+
+
+              
+          
+
+        //res.render("pages/managerDshboard");  // Reload list
+        console.log('donjo')
+    });
+    
+      db.end(); // Close the database connection
+});
+    })
+

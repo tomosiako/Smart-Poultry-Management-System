@@ -185,3 +185,62 @@ footer p {
     margin-left: 600px;
 
 }
+
+
+
+
+
+
+/* MAIN MENU LIST RESET */
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* PARENT MENU ITEM */
+li {
+  position: relative;
+  display: inline-block;
+}
+
+/* BUTTON STYLE */
+.dropbtn {
+  display: inline-block;
+  padding: 0px 0px;
+  text-decoration: none;
+  /*background: #222;*/
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* DROPDOWN BOX */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 180px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.25);
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* ITEMS INSIDE THE DROPDOWN */
+.dropdown-content a {
+  color: #222;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 15px;
+}
+
+.dropdown-content a:hover {
+  background: #f3f3f3;
+}
+
+/* SHOW ON HOVER */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
