@@ -17,5 +17,5 @@ Smart Poultry Management System is a web-based platform designed to digitalize a
   10. npm install express-session
   
 
-###install mysql or Xamp server for database
+###install mysql or Xampp server for database
 12. 
