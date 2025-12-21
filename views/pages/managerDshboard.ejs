@@ -97,26 +97,32 @@
 
                     <button type="submit">Update Inventory</button>
                 </form>
+                 <h3>Current Inventory</h3>
 
-                <h3>Current Inventory</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Chicken Feed</td>
-                            <td>200 kg</td>
-                        </tr>
-                        <tr>
-                            <td>Vaccine A</td>
-                            <td>50 doses</td>
-                        </tr>
-                    </tbody>
-                </table>
+                   <ul class="employee-list">
+                  <% if (results1.length > 0) { %>
+                    <% results1.forEach(result => { %>
+                        <li>
+                            <%= result.name %>
+                            <span style="font-weight: bold; margin-left: 10px;">
+                            <%= result.quantity %>
+                            </span>
+
+
+                            <form action="/replenish" method="POST" style="display:inline;">
+                                <input type="hidden" name="id" value="<%= result.id %>">
+                                <button type="submit" class="remove-btn">Replenish</button>
+                            </form>
+                        </li>
+                    <% }); %>
+                <% } else { %>
+                    <li>No employees found</li>
+                <% } %>
+            </ul>
+            
+
+               
+               
             </section>
           
 

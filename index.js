@@ -190,22 +190,34 @@ app.get('/employeelogin',function(req,res){
     res.render('pages/employeelogin')
 })
 
-app.get('/employeeDashboard',function(req,res){
-     var con = mysql.createConnection({
-        host:"localhost",
-        user:"root",
-        password:"",
-        database:"smart_poultry"
-    })
-    con.query("SELECT * FROM employee_details",(err,results)=>{
-        
-        res.render('pages/employeeDashboard',{results})
 
-   })
-   res.render('pages/employeeDashboard')
-   
-   
-})
+app.get("/managerDshboard", (req, res) => {
+    const db = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "smart_poultry"
+    });
+
+    const qEmployees = "SELECT * FROM employee_details";
+    const qProducts = "SELECT * FROM products";
+
+    db.query(qEmployees, (err1, employees) => {
+        if (err1) return res.status(500).send("DB error");
+
+        db.query(qProducts, (err2, products) => {
+            if (err2) return res.status(500).send("DB error");
+
+            res.render("pages/managerDshboard", {
+                results: employees,
+                results1: products
+            });
+
+            db.end();
+        });
+    });
+});
+
 
 app.get('/usedproducts',function(req,res){
     res.render('pages/usedproducts')
@@ -543,14 +555,14 @@ app.post('/managerlog', (req, res) => {
 
                 // If login successful, query multiple tables
             const qEmployees = "SELECT * FROM employee_details";
-            // const qInventory = "SELECT * FROM inventory";   // example table
+            const qInventory = "SELECT * FROM products";   // example table
             // const qTasks = "SELECT * FROM tasks";           // example table
 
             con.query(qEmployees, (err1, results) => {
                 if (err1) return res.status(500).send("DB error on employees");
 
-                // con.query(qInventory, (err2, inventory) => {
-                //     if (err2) return res.status(500).send("DB error on inventory");
+            con.query(qInventory, (err2, results1) => {
+                if (err2) return res.status(500).send("DB error on inventory");
 
                 //     con.query(qTasks, (err3, tasks) => {
                 //         if (err3) return res.status(500).send("DB error on tasks");
@@ -558,7 +570,7 @@ app.post('/managerlog', (req, res) => {
                         // Render the dashboard and pass all results
                         res.render('pages/managerDshboard', {
                             results: results,
-                            // inventory: inventory,
+                            results1:results1
                             // tasks: tasks
                         });
 
@@ -606,6 +618,7 @@ app.post('/registeremployee',function(req,res){
 
         // Insert new user
         const insertUser = "INSERT INTO employee_details (name, email, number , id_number,role,phone,password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+       
         db.query(insertUser, [name, email,workid,id_number,role,phone, password], (err2) => {
             if (err2) {
                 
@@ -614,14 +627,20 @@ app.post('/registeremployee',function(req,res){
             }
 
             const qEmployees = "SELECT * FROM employee_details";
+            const products = "SELECT * FROM products";
            
             db.query(qEmployees, (err1, results) => {
                 if (err1) return res.status(500).send("DB error on employees");
 
+                 db.query(products, (err1, results1) => {
+                    if (err1) return res.status(500).send("DB error on employees");
+
                         res.render('pages/managerDshboard', {
                             results: results,
+                            results1:results1
+
                            
-                        });
+                        });})
 
 
     });
@@ -633,7 +652,47 @@ app.post('/registeremployee',function(req,res){
     })
     });
 
-    app.post("/removeEmployee", (req, res) => {
+// app.post("/replenish", (req, res) => {
+//     const db = mysql.createConnection({
+//         host: "localhost",
+//         user: "root",
+//         password: "",
+//         database: "smart_poultry"
+//     });
+
+//     const id = req.body.id;
+//     if (!id) return res.status(400).send("Missing product ID");
+
+//     const updateSql = "UPDATE products SET quantity = 500 WHERE id = ?";
+//     const employeesSql = "SELECT * FROM employee_details";
+//     const productsSql = "SELECT * FROM products";
+
+//     db.query(updateSql, [id], (err) => {
+//         if (err) {
+//             console.log(err);
+//             return res.status(500).send("Failed to replenish");
+//         }
+
+//         db.query(employeesSql, (err1, employees) => {
+//             if (err1) return res.status(500).send("DB error on employees");
+
+//             db.query(productsSql, (err2, products) => {
+//                 if (err2) return res.status(500).send("DB error on products");
+
+//                 res.render("pages/managerDshboard", {
+//                     results: employees,
+//                     results1: products
+//                 });
+
+//                 db.end(); // ✅ close AFTER all queries
+//             });
+//         });
+//     });
+// });
+// })
+
+
+app.post("/replenish", (req, res) => {
     const db = mysql.createConnection({
         host: "localhost",
         user: "root",
@@ -641,36 +700,20 @@ app.post('/registeremployee',function(req,res){
         database: "smart_poultry"
     });
 
-    const empId = req.body.id;
+    const id = req.body.id;
+    if (!id) return res.status(400).send("Missing product ID");
 
-    if (!empId) return res.status(400).send("Missing employee ID.");
+    const updateSql = "UPDATE products SET quantity = 500 WHERE id = ?";
 
-    const sql = "DELETE FROM employee_details WHERE number = ?";
-    db.query(sql, [empId], (err, result) => {
-        if (err){
-            console.log(err)
-            return res.status(500).send("Failed to delete");
-        } 
-          const qEmployees = "SELECT * FROM employee_details";
-           
-            db.query(qEmployees, (err1, results) => {
-                if (err1) return res.status(500).send("DB error on employees");
+    db.query(updateSql, [id], (err) => {
+        if (err) {
+            console.log(err);
+            db.end();
+            return res.status(500).send("Failed to replenish");
+        }
 
-                        res.render('pages/managerDshboard', {
-                            results: results,
-                           
-                        });
-
-
-
-              
-          
-
-        //res.render("pages/managerDshboard");  // Reload list
-        console.log('donjo')
+        db.end();
+        res.redirect("/managerDshboard"); // ✅ KEY FIX
     });
-    
-      db.end(); // Close the database connection
 });
-    })
-
+})
