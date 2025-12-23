@@ -191,6 +191,12 @@ app.get('/employeelogin',function(req,res){
 })
 
 
+app.get('/employeeDashboard',function(req,res){
+   
+    res.render('pages/employeeDashboard')
+})
+
+
 app.get("/managerDshboard", (req, res) => {
     const db = mysql.createConnection({
         host: "localhost",
